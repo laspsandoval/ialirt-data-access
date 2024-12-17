@@ -1,0 +1,50 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Create a combinaton of jobs.
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    defaults:
+      run:
+        shell: bash
+
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # We need the full history to generate the proper version number
+          fetch-depth: 0
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: Gr1N/setup-poetry@v9
+
+
+      - name: Install the application
+        run: |
+          # With testing dependencies
+          poetry install --extras "test"
+
+      - name: Testing
+        id: test
+        run: |
+          # Ignore the network marks from the remote test environment
+          poetry run pytest --color=yes --cov --cov-report=xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
