@@ -36,7 +36,7 @@ jobs:
       - name: Install the application
         run: |
           # With testing dependencies
-          poetry install --extras "test"
+          poetry install --all-extras
 
       - name: Testing
         id: test
