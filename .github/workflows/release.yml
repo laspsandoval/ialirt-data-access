@@ -1,7 +1,7 @@
 name: Build and upload to PyPI
 # https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
-# Allows a single job at a time.
+# Allows a single job at a time
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.ref }}
   cancel-in-progress: true
