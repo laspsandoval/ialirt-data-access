@@ -42,19 +42,20 @@ def _get_url_response(request: urllib.request.Request):
 
 
 def query(
-        year: int,
-        doy: int,
-        instance: int,
+        *,
+        year: str,
+        doy: str,
+        instance: str,
 ):
     """Query the logs.
 
     Parameters
     ----------
-    year : int
+    year : str
         Year
-    doy : int
+    doy : str
         Day of year
-    instance : int
+    instance : str
         Instance number
 
     Returns
@@ -80,4 +81,3 @@ def query(
         items = json.loads(items)
         logger.debug("Decoded JSON: %s", items)
     return items
-
