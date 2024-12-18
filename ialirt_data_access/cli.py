@@ -6,6 +6,8 @@ This module allows querying the IALIRT log API using command-line arguments.
 
 Usage:
     ialirt-log-query --year <year> --doy <doy> --instance <instance>
+    (venv) MacL4581:ialirt-data-access lasa6858$ python3 ialirt_data_access/cli.py --url https://ialirt.dev.imap-mission.com ialirt-log-query --year 2024 --doy 045 --instance 1
+{'files': ['flight_iois_1.log.2024-045T16-54-46_123456.txt']}
 """
 
 import argparse
@@ -30,7 +32,7 @@ def _query_parser(args: argparse.Namespace):
     try:
         query_results = ialirt_data_access.query(**query_params)
         print(query_results)
-    except ialirt_data_access.io.IMAPDataAccessError as e:
+    except ialirt_data_access.io.IALIRTDataAccessError as e:
         print(e)
         return
 
@@ -72,26 +74,26 @@ def main():
 
     query_parser.add_argument(
         "--year",
-        type=int,
+        type=str,
         required=True,
         help="Year",
     )
 
     query_parser.add_argument(
         "--doy",
-        type=int,
+        type=str,
         required=True,
         help="Day of Year",
     )
 
     query_parser.add_argument(
         "--instance",
-        type=int,
+        type=str,
         required=True,
         help="Instance",
         choices=[
-            1,
-            2,
+            "1",
+            "2",
         ],
     )
 

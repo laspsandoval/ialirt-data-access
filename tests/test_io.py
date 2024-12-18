@@ -76,3 +76,17 @@ def test_query(mock_urlopen: unittest.mock.MagicMock, query_params: list[dict]):
     called_url = urlopen_call.full_url
     expected_url_encoded = f"https://alirt.test.com/ialirt-log-query?{urlencode(query_params)}"
     assert called_url == expected_url_encoded
+
+
+def test_query_bad_params(mock_urlopen: unittest.mock.MagicMock):
+    """Test a call to the Query API that has invalid parameters.
+
+    Parameters
+    ----------
+    mock_urlopen : unittest.mock.MagicMock
+        Mock object for ``urlopen``
+    """
+    with pytest.raises(TypeError, match="got an unexpected"):
+        ialirt_data_access.query(bad_param="test")
+    # Should not have made any calls to urlopen
+    assert mock_urlopen.call_count == 0

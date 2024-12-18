@@ -2,8 +2,6 @@ import contextlib
 import json
 import logging
 import urllib.request
-from pathlib import Path
-from typing import Optional, Union
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 
@@ -63,11 +61,12 @@ def query(
     list
         List of files matching the query
     """
-    # locals() gives us the keyword arguments passed to the function
-    # and allows us to filter out the None values
-    query_params = {key: value for key, value in locals().items() if value is not None}
-    if not query_params:
-        raise ValueError("Query parameters must be provided")
+    query_params = {
+        "year": year,
+        "doy": doy,
+        "instance": instance,
+    }
+
     url = f"{ialirt_data_access.config['DATA_ACCESS_URL']}"
     url += f"/ialirt-log-query?{urlencode(query_params)}"
 
