@@ -13,7 +13,7 @@ ialirt-data-access -h
 
 ### Query / Search for logs
 
-Find all files from a given year, day of year, and instance
+Find all files from a given year, day of year, and instance.
 
 ```bash
 $ ialirt_data_access --url <url> ialirt-log-query --year <year> --doy <doy> --instance <instance>
